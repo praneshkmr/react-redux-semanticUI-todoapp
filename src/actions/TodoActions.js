@@ -15,6 +15,13 @@ export const DELETE_TODO_START = "DELETE_TODO_START";
 export const DELETE_TODO_FULFILLED = "DELETE_TODO_FULFILLED";
 export const DELETE_TODO_REJECTED = "DELETE_TODO_REJECTED";
 
+export const SET_TODO_FOR_EDIT = "SET_TODO_FOR_EDIT";
+export const UNSET_TODO_FOR_EDIT = "UNSET_TODO_FOR_EDIT";
+
+export const UPDATE_TODO_START = "UPDATE_TODO_START";
+export const UPDATE_TODO_FULFILLED = "UPDATE_TODO_FULFILLED";
+export const UPDATE_TODO_REJECTED = "UPDATE_TODO_REJECTED";
+
 const WS_BASE_URL = "http://rest.learncode.academy/api/praneshkmr/todos/";
 
 export function createTodo(name) {
@@ -67,6 +74,32 @@ export function deleteTodo(todo) {
             })
             .catch(function (error) {
                 dispatch({ type: DELETE_TODO_REJECTED, payload: error });
+            })
+    }
+}
+
+export function setTodoForEdit(todo) {
+    return function (dispatch) {
+        dispatch({ type: SET_TODO_FOR_EDIT, payload: todo });
+    }
+}
+
+export function unsetTodoForEdit() {
+    return function (dispatch) {
+        dispatch({ type: UNSET_TODO_FOR_EDIT });
+    }
+}
+
+export function updateTodo(todo) {
+    return function (dispatch) {
+        dispatch({ type: UPDATE_TODO_START });
+        return axios.put(WS_BASE_URL + todo.id, todo)
+            .then(function (response) {
+                dispatch({ type: UPDATE_TODO_FULFILLED, payload: todo });
+                dispatch({ type: UNSET_TODO_FOR_EDIT });
+            })
+            .catch(function (error) {
+                dispatch({ type: UPDATE_TODO_REJECTED, payload: error });
             })
     }
 }

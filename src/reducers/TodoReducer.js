@@ -2,12 +2,15 @@ import { CREATE_TODO_START, CREATE_TODO_FULFILLED, CREATE_TODO_REJECTED } from "
 import { GET_TODOS_START, GET_TODOS_FULFILLED, GET_TODOS_REJECTED } from "./../actions/TodoActions";
 import { SET_TODO_FOR_DELETE, UNSET_TODO_FOR_DELETE } from "./../actions/TodoActions";
 import { DELETE_TODO_START, DELETE_TODO_FULFILLED, DELETE_TODO_REJECTED } from "./../actions/TodoActions";
+import { SET_TODO_FOR_EDIT, UNSET_TODO_FOR_EDIT } from "./../actions/TodoActions";
+import { UPDATE_TODO_START, UPDATE_TODO_FULFILLED, UPDATE_TODO_REJECTED } from "./../actions/TodoActions";
 
 const initialState = {
     todos: null,
     isFetching: false,
     error: null,
-    deleteTodo: null
+    deleteTodo: null,
+    editTodo: null
 }
 export default function (state = initialState, action) {
     switch (action.type) {
@@ -50,6 +53,29 @@ export default function (state = initialState, action) {
             return { ...state, todos: newTodos, error: null };
         }
         case DELETE_TODO_REJECTED: {
+            const error = action.payload;
+            return { ...state, error: error };
+        }
+        case SET_TODO_FOR_EDIT: {
+            return { ...state, editTodo: action.payload }
+        }
+        case UNSET_TODO_FOR_EDIT: {
+            return { ...state, editTodo: null }
+        }
+        case UPDATE_TODO_START: {
+            return { ...state };
+        }
+        case UPDATE_TODO_FULFILLED: {
+            const updatedTodo = action.payload;
+            let newTodos = state.todos.map((todo) => {
+                if (todo.id === updatedTodo.id) {
+                    todo = updatedTodo;
+                }
+                return todo;
+            })
+            return { ...state, todos: newTodos, error: null };
+        }
+        case UPDATE_TODO_REJECTED: {
             const error = action.payload;
             return { ...state, error: error };
         }

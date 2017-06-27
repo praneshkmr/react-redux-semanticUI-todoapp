@@ -46,14 +46,13 @@ class TodoForm extends Component {
 
 function mapStatesToProps(state) {
     return {
-        initialValues: {
-            name: ""
-        }
+        initialValues: state.todo.editTodo
     }
 }
 
 export default connect(mapStatesToProps)(reduxForm({
     form: "TodoForm",
-    validate
+    validate,
+    enableReinitialize: true
 })(TodoForm));
 
