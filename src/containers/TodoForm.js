@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
-
 import { Header, Segment, Input, Label, Form, Button } from "semantic-ui-react";
+
+import { createTodo } from "./../actions/TodoActions";
 
 function validate(values) {
     var errors = {};
@@ -24,14 +25,15 @@ class TodoForm extends Component {
         )
     }
     onSubmit(values, dispatch) {
-        console.log(values);
+        const { name } = values;
+        return dispatch(createTodo(name));
     }
     render() {
         const { handleSubmit, pristine, initialValues, errors, submitting } = this.props;
         return (
             <Segment textAlign='center'>
                 <Header as="h2">Add Todo</Header>
-                <Form onSubmit={handleSubmit(this.onSubmit)}>
+                <Form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                     <Form.Field inline>
                         <Field name="name" component={this.renderField}></Field>
                     </Form.Field>
@@ -50,7 +52,7 @@ function mapStatesToProps(state) {
     }
 }
 
-export default connect()(reduxForm({
+export default connect(mapStatesToProps)(reduxForm({
     form: "TodoForm",
     validate
 })(TodoForm));

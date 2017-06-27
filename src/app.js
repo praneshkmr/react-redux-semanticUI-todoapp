@@ -8,7 +8,7 @@ import { createLogger } from "redux-logger";
 import reducers from "./reducers";
 
 const logger = createLogger();
-const store = createStore(reducers, applyMiddleware(logger));
+const store = createStore(reducers, applyMiddleware(thunk, logger));
 
 import Main from "./Main";
 
