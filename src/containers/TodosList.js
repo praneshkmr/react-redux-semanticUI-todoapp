@@ -27,10 +27,10 @@ class TodosList extends Component {
                     <List.Header>{todo.name}</List.Header>
                 </List.Content>
                 <List.Content floated='right'>
-                    <Icon link name='edit' onClick={this.editTodo.bind(this, todo)} />
+                    <Icon link name='delete' onClick={this.deleteTodo.bind(this, todo)} />
                 </List.Content>
                 <List.Content floated='right'>
-                    <Icon link name='delete' onClick={this.deleteTodo.bind(this, todo)} />
+                    <Icon link name='edit' onClick={this.editTodo.bind(this, todo)} />
                 </List.Content>
             </ List.Item>
         )
