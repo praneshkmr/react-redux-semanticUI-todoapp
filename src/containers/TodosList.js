@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Segment, Header, List, Icon, Modal, Button } from "semantic-ui-react";
+import { Segment, Header, List, Icon, Modal, Button, Checkbox } from "semantic-ui-react";
 
-import { getTodos, setTodoForDelete, unsetTodoForDelete, deleteTodo, setTodoForEdit } from "./../actions/TodoActions";
+import { getTodos, setTodoForDelete, unsetTodoForDelete, deleteTodo, setTodoForEdit, updateTodo } from "./../actions/TodoActions";
 
 class TodosList extends Component {
     componentWillMount() {
@@ -20,6 +20,10 @@ class TodosList extends Component {
     editTodo(todo) {
         this.props.dispatch(setTodoForEdit(todo));
     }
+    onToggleChange(todo) {
+        todo.isComplete = !todo.isComplete;
+        this.props.dispatch(updateTodo(todo));
+    }
     todoListItems(todo) {
         return (
             <List.Item key={todo.id}>
@@ -31,6 +35,9 @@ class TodosList extends Component {
                 </List.Content>
                 <List.Content floated='right'>
                     <Icon link name='edit' onClick={this.editTodo.bind(this, todo)} />
+                </List.Content>
+                <List.Content floated='right'>
+                    <Checkbox toggle checked={todo.isComplete} onChange={this.onToggleChange.bind(this, todo)} />
                 </List.Content>
             </ List.Item>
         )
