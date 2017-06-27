@@ -1,6 +1,7 @@
 import { CREATE_TODO_START, CREATE_TODO_FULFILLED, CREATE_TODO_REJECTED } from "./../actions/TodoActions";
 import { GET_TODOS_START, GET_TODOS_FULFILLED, GET_TODOS_REJECTED } from "./../actions/TodoActions";
 import { SET_TODO_FOR_DELETE, UNSET_TODO_FOR_DELETE } from "./../actions/TodoActions";
+import { DELETE_TODO_START, DELETE_TODO_FULFILLED, DELETE_TODO_REJECTED } from "./../actions/TodoActions";
 
 const initialState = {
     todos: null,
@@ -37,6 +38,20 @@ export default function (state = initialState, action) {
         }
         case UNSET_TODO_FOR_DELETE: {
             return { ...state, deleteTodo: null }
+        }
+        case DELETE_TODO_START: {
+            return { ...state };
+        }
+        case DELETE_TODO_FULFILLED: {
+            const deletedTodo = action.payload;
+            let newTodos = state.todos.filter((todo) => {
+                return todo.id !== deletedTodo.id;
+            })
+            return { ...state, todos: newTodos, error: null };
+        }
+        case DELETE_TODO_REJECTED: {
+            const error = action.payload;
+            return { ...state, error: error };
         }
         default: {
             return state;

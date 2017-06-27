@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Segment, Header, List, Icon, Modal, Button } from "semantic-ui-react";
 
-import { getTodos, setTodoForDelete, unsetTodoForDelete } from "./../actions/TodoActions";
+import { getTodos, setTodoForDelete, unsetTodoForDelete, deleteTodo } from "./../actions/TodoActions";
 
 class TodosList extends Component {
     componentWillMount() {
@@ -15,7 +15,7 @@ class TodosList extends Component {
         this.props.dispatch(unsetTodoForDelete());
     }
     confirmDeleteTodo() {
-        console.log("confirm delete")
+        this.props.dispatch(deleteTodo(this.props.todo.deleteTodo));
     }
     todoListItems(todo) {
         return (

@@ -11,6 +11,10 @@ export const GET_TODOS_REJECTED = "GET_TODOS_REJECTED";
 export const SET_TODO_FOR_DELETE = "SET_TODO_FOR_DELETE";
 export const UNSET_TODO_FOR_DELETE = "UNSET_TODO_FOR_DELETE";
 
+export const DELETE_TODO_START = "DELETE_TODO_START";
+export const DELETE_TODO_FULFILLED = "DELETE_TODO_FULFILLED";
+export const DELETE_TODO_REJECTED = "DELETE_TODO_REJECTED";
+
 const WS_BASE_URL = "http://rest.learncode.academy/api/praneshkmr/todos/";
 
 export function createTodo(name) {
@@ -50,5 +54,19 @@ export function setTodoForDelete(todo) {
 export function unsetTodoForDelete() {
     return function (dispatch) {
         dispatch({ type: UNSET_TODO_FOR_DELETE });
+    }
+}
+
+export function deleteTodo(todo) {
+    return function (dispatch) {
+        dispatch({ type: DELETE_TODO_START });
+        return axios.delete(WS_BASE_URL + todo.id)
+            .then(function (response) {
+                dispatch({ type: DELETE_TODO_FULFILLED, payload: todo });
+                dispatch({ type: UNSET_TODO_FOR_DELETE });
+            })
+            .catch(function (error) {
+                dispatch({ type: DELETE_TODO_REJECTED, payload: error });
+            })
     }
 }
