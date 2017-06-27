@@ -8,6 +8,9 @@ export const GET_TODOS_START = "GET_TODOS_START";
 export const GET_TODOS_FULFILLED = "GET_TODOS_FULFILLED";
 export const GET_TODOS_REJECTED = "GET_TODOS_REJECTED";
 
+export const SET_TODO_FOR_DELETE = "SET_TODO_FOR_DELETE";
+export const UNSET_TODO_FOR_DELETE = "UNSET_TODO_FOR_DELETE";
+
 const WS_BASE_URL = "http://rest.learncode.academy/api/praneshkmr/todos/";
 
 export function createTodo(name) {
@@ -35,5 +38,17 @@ export function getTodos() {
             .catch(function (error) {
                 dispatch({ type: GET_TODOS_REJECTED, payload: error });
             });
+    }
+}
+
+export function setTodoForDelete(todo) {
+    return function (dispatch) {
+        dispatch({ type: SET_TODO_FOR_DELETE, payload: todo });
+    }
+}
+
+export function unsetTodoForDelete() {
+    return function (dispatch) {
+        dispatch({ type: UNSET_TODO_FOR_DELETE });
     }
 }

@@ -1,18 +1,30 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Segment, Header, List } from "semantic-ui-react";
+import { Segment, Header, List, Icon, Modal, Button } from "semantic-ui-react";
 
-import { getTodos } from "./../actions/TodoActions";
+import { getTodos, setTodoForDelete, unsetTodoForDelete } from "./../actions/TodoActions";
 
 class TodosList extends Component {
     componentWillMount() {
         this.props.dispatch(getTodos());
+    }
+    deleteTodo(todo) {
+        this.props.dispatch(setTodoForDelete(todo));
+    }
+    closeDeleteModal() {
+        this.props.dispatch(unsetTodoForDelete());
+    }
+    confirmDeleteTodo() {
+        console.log("confirm delete")
     }
     todoListItems(todo) {
         return (
             <List.Item key={todo.id}>
                 <List.Content>
                     <List.Header>{todo.name}</List.Header>
+                </List.Content>
+                <List.Content floated='right'>
+                    <Icon link name='delete' onClick={this.deleteTodo.bind(this, todo)} />
                 </List.Content>
             </ List.Item>
         )
@@ -36,6 +48,24 @@ class TodosList extends Component {
             <Segment textAlign="center" loading={this.props.todo.isFetching}>
                 <Header as="h2">Todo List</Header>
                 {content}
+                <Modal
+                    open={!!this.props.todo.deleteTodo}
+                    basic
+                    size='small'
+                >
+                    <Header icon='delete' content='Delete Todo' />
+                    <Modal.Content>
+                        <h3>Are you Sure, you want to Delete Todo : {this.props.todo.deleteTodo ? this.props.todo.deleteTodo.name : ""}?</h3>
+                    </Modal.Content>
+                    <Modal.Actions>
+                        <Button color='red' onClick={this.closeDeleteModal.bind(this)} inverted>
+                            <Icon name='remove' /> No
+                        </Button>
+                        <Button basic color='green' onClick={this.confirmDeleteTodo.bind(this)} inverted>
+                            <Icon name='checkmark' /> Yes
+                        </Button>
+                    </Modal.Actions>
+                </Modal>
             </Segment>
         )
     }
