@@ -4,6 +4,15 @@ import { reduxForm, Field } from "redux-form";
 
 import { Header, Segment, Input, Label, Form, Button } from "semantic-ui-react";
 
+function validate(values) {
+    var errors = {};
+    const { name } = values;
+    if (!name || name.trim() === "") {
+        errors.name = "Todo Name is Required";
+    }
+    return errors;
+}
+
 class TodoForm extends Component {
     renderField({ input, meta: { touched, error }, ...custom }) {
         const hasError = touched && error !== undefined;
@@ -42,6 +51,7 @@ function mapStatesToProps(state) {
 }
 
 export default connect()(reduxForm({
-    form: "TodoForm"
+    form: "TodoForm",
+    validate
 })(TodoForm));
 
