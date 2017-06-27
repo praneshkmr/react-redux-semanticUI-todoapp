@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 
+import TodoForm from "./containers/TodoForm";
+
 export default class Main extends Component {
     render() {
         return (
-            <h1 > Hello World</h1 >
+            <div>
+                <TodoForm />
+            </div>
         )
     }
 }

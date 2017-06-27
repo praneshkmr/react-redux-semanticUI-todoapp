@@ -1,3 +1,4 @@
-export default function (state, action) {
+const initialState = {}
+export default function (state = initialState, action) {
     return state;
 }
