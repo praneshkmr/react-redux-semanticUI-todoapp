@@ -18,8 +18,9 @@ export default function (state = initialState, action) {
             return { ...state };
         }
         case CREATE_TODO_FULFILLED: {
-            const todos = action.payload;
-            return { ...state, isFetching: false, error: null };
+            const todo = action.payload;
+            state.todos.push(todo);
+            return { ...state, todos: state.todos, error: null };
         }
         case CREATE_TODO_REJECTED: {
             const error = action.payload;

@@ -29,8 +29,8 @@ export function createTodo(name) {
         dispatch({ type: CREATE_TODO_START });
         return axios.post(WS_BASE_URL, { name: name, isComplete: false })
             .then(function (response) {
-                var todos = response.data;
-                dispatch({ type: CREATE_TODO_FULFILLED, payload: todos });
+                var todo = response.data;
+                dispatch({ type: CREATE_TODO_FULFILLED, payload: todo });
             })
             .catch(function (error) {
                 dispatch({ type: CREATE_TODO_REJECTED, payload: error });
